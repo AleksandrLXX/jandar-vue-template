@@ -1,0 +1,14 @@
+
+施康麒18605818977  18:37:49
+var printXml=$x2RMPrinter.appendTitel("缴费凭条",{"font-size":1})
+					.appendArrayRow(["病历号:",$v.med_id],[2,0],{"sign":" "})
+					.appendArrayRow(["姓名:",userInfo.name ],[2,0],{"sign":" "})
+					.appendArrayRow(["个人支付金额:",ownCost],[2,0],{"sign":" "});
+				if (userInfo.cardtype=="1" || userInfo.cardtype=="3") 
+					printXml = printXml.appendArrayRow(["医保支付金额:",medCost],[2,0],{"sign":" "});
+				printXml.appendArrayRow(["日期:",date],[2,0],{"sign":" "}).appendArrayRow(["打印时间:",printTime],[2,0],{"sign":" "})
+						.appendArrayRow([" "],[0])
+						.appendArrayRow(["以下项目明细:"],[0])
+						.appendArrayRow(["费用名称","类别","规格","数量","收费金额"],[13,5,5,5,0],{"sign":" "})
+						.appendTable(arryAll,[10,5,10,5,0],{"sign":" "})
+				$hardware.printXml(printXml.bodyEnd().toString());

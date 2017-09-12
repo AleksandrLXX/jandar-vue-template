@@ -1,0 +1,207 @@
+/**
+ * 全局样式修改,第三方UI组件样式修改。
+ */
+
+//-------------------全局样式修改------------------------------
+$assertive:#cf3a7d;
+$foreColor:#06d7d9;
+$fontColor:#fff;
+$disable:#ccc;
+span,div{
+    &[big]{
+        font-size: 120%;
+    }
+
+    &[fore] {
+        color: $foreColor;
+    }
+    &[fore-dark] {
+        color: darken($foreColor,15%);
+    }
+    &[assert] {
+        color: $assertive;
+    }
+    &[dis] {
+        color: $disable;
+    }
+}
+@mixin column{
+    display: flex;flex-direction:column;
+}
+
+@mixin row{
+    display: flex;flex-direction:row;
+}
+
+div,section{
+    &[ellipsis]{
+        overflow: hidden;text-overflow:ellipsis;white-space: nowrap;
+    }
+    &[bgi-normal]{
+        background-size: contain;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+
+    &[column] {
+        @include column;
+    }
+
+    &[row] {
+        @include row;
+    }
+
+    &[width-full] {
+        width: 100%;
+    }
+
+    &[height-full] {
+        height: 100%;
+    }
+}
+
+.flex-row{
+    display: flex;flex-direction: row;
+    &.flex-left{
+        justify-content: flex-start;
+    }
+    &.flex-right{
+        justify-content: flex-end;
+    }
+    &.ver-center{
+        align-items: center;
+    }
+    &.hor-center{
+        justify-content: center;
+    }
+    &.center{
+        align-items: center;
+        justify-content: center;
+    }
+    &.flex-top{
+        align-items: flex-start;
+    }
+    &.flex-bottom{
+        align-items: flex-end;
+    }
+}
+.flex-column{
+    display: flex;flex-direction: column;
+    &.flex-left{
+        align-items: flex-start;
+    }
+    &.flex-right{
+        align-items: flex-end;
+    }
+    &.ver-center{
+        justify-content: center;
+    }
+    &.hor-center{
+        align-items: center;
+    }
+    &.center{
+        align-items: center;
+        justify-content: center;
+    }
+    &.flex-top{
+        justify-content: flex-start;
+    }
+    &.flex-bottom{
+        justify-content: flex-end;
+    }
+}
+
+
+input,
+text,
+button,
+div,
+span,
+li,
+ul,
+i {
+    user-select: none!important;
+}
+
+
+body {
+    display: flex;
+    flex-direction:column;
+    align-items:center;
+    color: #484746;
+    font-weight: 600;
+    background-color: #fff;
+    font-size: 30px;
+    -moz-user-select: none;
+    /* 火狐 */
+    -webkit-user-select: none;
+    /*webkit 浏览器 */
+    -ms-user-select: none;
+    /*IE10*/
+    -khtml-user-select: none;
+    /* 早期浏览器 */
+    user-select: none;
+    // .iconfont {
+    //     font-family: "iconfont" !important;
+    //     font-style: normal;
+    //     -webkit-font-smoothing: antialiased;
+    //     -webkit-text-stroke-width: 0.2px;
+    //     -moz-osx-font-smoothing: grayscale;
+    // }
+}
+
+.model{
+        position: absolute;left:0;top:0;right:0;bottom:0;
+        background-color: transparentize(#000,0.3)
+    }
+.mu-card-title-container{
+    margin-top:40px; 
+    .mu-card-title{
+        margin-top: 3px;
+        font-size: 30px;
+    }
+    .mu-card-sub-title{
+        font-size: 25px;
+        color:#f22;
+    }
+}
+.mu-card-title{
+    margin-top:-10px;
+}
+.mu-card-media img{
+    border:5px solid  #817349;
+    height: 200px;
+}
+.mu-card-media-title{
+    display: relative;
+    top:200px;
+    background-color: #817349;
+    height: 50px;
+}
+.mu-card-title{
+    font-famliy:FangSong,STFangsong;
+    max-height: 2.5em;
+    overflow: hidden;
+   
+       
+}
+
+.mu-toast{
+    background-color: lighten(#beaa6b,10%);
+    left:50%;
+    top:50%;
+    max-width: 800px;
+    box-sizing: content-box;
+    width: 800px;
+    text-align:center;
+    color:#333;
+    transform: translateX(-50%);
+    
+}
+
+.pos-tf-center{
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform: translateX(-50%) translateY(-50%);
+}

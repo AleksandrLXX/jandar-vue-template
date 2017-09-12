@@ -1,0 +1,34 @@
+[
+{
+  "UNIT": "1002",
+  "NAME": "阿姆斯林2",
+  "IMGBIG": "\/drug\/images\/2_180503-1061.jpg",
+  "IMGSMALL": "\/drug\/images\/2_180503-1061.jpg",
+  "PRICE1": "12",
+  "FROMPLACE": "安哥拉2",
+  "ID": 2,
+  "STOCKCOUNT": "22",
+  "MARK1": "332"
+},
+{
+  "UNIT": "瓶",
+  "NAME": "咳嗽糖浆",
+  "IMGBIG": "\/drug\/images\/3_258906-106.jpg",
+  "IMGSMALL": "\/drug\/images\/3_258906-106.jpg",
+  "PRICE1": "22",
+  "FROMPLACE": "广州",
+  "ID": 3,
+  "STOCKCOUNT": "11",
+  "MARK1": "这是咳嗽糖浆"
+},
+{
+  "UNIT": "1",
+  "NAME": "1",
+  "IMGBIG": null,
+  "IMGSMALL": null,
+  "PRICE1": "1",
+  "FROMPLACE": "1",
+  "ID": 4,
+  "STOCKCOUNT": "1",
+  "MARK1": "1"
+}]
