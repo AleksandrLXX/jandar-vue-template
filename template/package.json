@@ -1,9 +1,9 @@
 {
-  "name": "BianMinZhuanGui",
+  "name": "jandar-vue-template",
   "version": "1.0.0",
-  "description": "jandar regis func page",
+  "description": "jandar-vue-template  func page",
   "author": "AleksandrLXX <zjlinxiangxiang@qq.com>",
-  "private": true,
+  "private": false,
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
