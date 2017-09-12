@@ -128,10 +128,10 @@ body {
     display: flex;
     flex-direction:column;
     align-items:center;
-    color: #484746;
-    font-weight: 600;
+    color: $fontColor;
+    font-weight: 400;
     background-color: #fff;
-    font-size: 30px;
+    font-size: 16px;
     -moz-user-select: none;
     /* 火狐 */
     -webkit-user-select: none;
@@ -153,7 +153,8 @@ body {
 .model{
         position: absolute;left:0;top:0;right:0;bottom:0;
         background-color: transparentize(#000,0.3)
-    }
+}
+
 .mu-card-title-container{
     margin-top:40px; 
     .mu-card-title{

@@ -11,7 +11,7 @@ Finally.shim();
 axios.defaults.timeout = 5000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 axios.defaults.headers.post['Accept']='application/json';
-axios.defaults.baseURL = "http://192.68.69.230:8080/";//http://192.68.69.92:8080/
+axios.defaults.baseURL = "";
 export const baseurl=axios.defaults.baseURL;
 
 //POST传参序列化
@@ -77,24 +77,9 @@ export function fetchPostKeepAlive(url, params) {
 
             })
             .finally(() => {
-             // $loading.hide()
+             
          })
     })
-}
-// http://192.68.69.230:8080/KSaleMonitor/
-export function getdata(params) {
-    //'http://192.68.68.70'
-    return fetchGet('/KSaleMonitor/drug/findAll');
-}
-
-export function getQR(params) {
-    //'http://192.68.68.70'
-    return fetchPost('KSaleMonitor/pay/createQr',params);
-}
-
-export function getResult(params) {
-    //'http://192.68.68.70'
-    return fetchPostKeepAlive('KSaleMonitor/pay/queryQr',params);
 }
 
 

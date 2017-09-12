@@ -27,6 +27,7 @@
 	}
 	/**
 	 * [ago 多少小时前、多少分钟前、多少秒前]
+	 * arg:pastTime
 	 * @return {[type]} [string]
 	 */
 	Date.prototype.ago = function(){ 

@@ -14,13 +14,9 @@ import './main.scss'
 import FastClick from 'fastclick'
 import {jdSchedule} from './util/index.js'
 
-jdSchedule.start()
+// jdSchedule.start()
 window.jdSchedule=jdSchedule;
-// window.config={
-//    alipay:true,
-//    wxpay:true,
-//    timeLimit:"17:00:00"
-// }
+
 
 //取消点击延迟
 if ('addEventListener' in document) {
