@@ -33,7 +33,7 @@ jd.collection={};
 *@see <a href="mailto:china_xuxiang@163.com" target="_blank">email:china_xuxiang@163.com</a >
 */
 jd.global={};var $g=jd.global;
-jd.global.socket_host="ws://localhost:9000";
+jd.global.socket_host="ws://127.0.0.1:9000";
 jd.global.serverTimeDifference=0;
 /**@class 类 jd.page 页面名称空间(方法 变量)*/
 jd.page={};
@@ -5492,218 +5492,289 @@ var $funReturn=$web.funReturn;
   * 方便在控制台控制。
   */
 var jdSocket=$web.socket=function(config){
-	
-		this.msgId=0;
-		/**
-		 * 对象配置参数<br>
-		 * addr：请求地址
-		 * repeat：重试次数
-		 * intervalTime：重试间隔时间
-		 * errorFn：开始前执行的执行的方法
-		 * timeOut：超时时间
-		 */
-		
-		this.config = {
-			addr : "",
-			repeat : 0,
-			intervalTime : 5000,
-			errorFn:null,
-			timeOut:""
-			
-		};
-		this.socket=null;
-		var Self=this;
-		//Websocket地址前缀
-		this.hostprefix="ws://";
-		//发送的参数
-		var sendparam=null;
-		//更新构造参数到对象
-		jQuery.extend(true, this.config, config);
-		
-		/**
-		 * 建立连接
-		 */
-		this.connect=function(){
-				console.error('Websocket开始连接...');
-				if (!window.WebSocket) {// 检测浏览器支持
-							console.error('该浏览器不支持Websocket!!!');
-							return;
-				}
-				if(Self.socket==null)
-					Self.socket = new WebSocket(this.config.addr);// 创建连接并注册响应函数
-				
-				Self.socket.onopen = function(evt){//打开连接
-									console.info("WebSocket已打开!!!")
-				};
-						
-				Self.socket.onmessage = function(message) {//接收消息
-						var dataJson=jd.fn.string2json(message.data);
-						console.log("接收消息>>>："+message.data);
-						//若拒绝需提示@@@
-						var _funkey=dataJson.callpath+"."+dataJson.fn;//+"."+dataJson.fn;
-						var _fun=$funReturn.get(_funkey);
-						if(_fun) _fun(dataJson.ret,dataJson.fn);
-				};
-					
-				Self.socket.onclose = this.onclose;
-				Self.socket.onerror = this.onerror;
-				
-			return Self;
-		}
-		
-		this.onerror=function(){
-			console.error("websocket已出错!!!");
-			this.close();
-		};
-		
-		this.onclose=function(){//
-			console.info("websocket已关闭!!!");
-			jd.plugins.x2Scheduled.remove("sendsocket");
-			this.close();
-			Self.socket=null;
-			jd.plugins.x2Scheduled.add('openloop',{callback:		
-				function(count,servDate){//回调函数								
-							Self.connect();//发送消息	
-				},interval:Self.config.intervalTime,count:1,direct:jd.plugins.x2ScheduledObserver.DESC});
-		};
-		
-		
-		/**
-		 *格式化参数
-		 *@param {Object} arguments 参数数组 第一个参数:回调函数，第二个参数：调用web的方法名，调用web方法的参数
-		 *@return {Object} 返回格式话参数对象的字符串
-		 */
-		this.paramFormat=function(arguments_self){
-			
-			/**参数对象不能超过11个长度*/
-			if(arguments_self.length<0||arguments_self.length>11){
-					console.error("请注意：web.run参数为空或长度过长!!!");
-					console.dir(arguments_self);
-					return;
-				}
-			
-			
-	//		console.log(arguments_self[1]);
-	//		console.dir(arguments_self[0]);
-			
-			/**定义入参对象 callpath:web类名，fn:web方法，param：参数数组*/
-			var _socketP={callpath:"",fn:"",param:[]};
-			/**给定义入参callpath赋值*/
-			_socketP.callpath=arguments_self[1].substring(0,arguments_self[1].lastIndexOf('.'));
-			/**给定义入参fn赋值*/
-			_socketP.fn=arguments_self[1].substring(arguments_self[1].lastIndexOf('.')+1);
-			/**将回调方法放到回调方法集合中*/
-			console.info("服务端Socket");
-			if(_socketP.callpath!=null)  $funReturn.put(_socketP.callpath+"."+_socketP.fn,arguments_self[0]);
-			
-			/**如果第三个参数是个数组，那就只解析数组了*/
-			if(arguments_self[2] instanceof Array){
-				_socketP.param=arguments_self[2];
-			}else{
-				/**拼合socket发送参数*/
-				for(var i=2;i<arguments_self.length;i++){
-					_socketP.param.push(arguments_self[i]);
-				}
+	this.msgId=0;
+	/**
+	 * 对象配置参数<br>
+	 * addr：请求地址
+	 * repeat：重试次数
+	 * intervalTime：重试间隔时间
+	 * errorFn：开始前执行的执行的方法
+	 * timeOut：超时时间
+	 */
+
+	this.config = {
+		addr : "",
+		repeat : 0,
+		intervalTime : 5000,
+		errorFn:null,
+		timeOut:""
+
+	};
+	this.socket=null;
+	var Self=this;
+	//Websocket地址前缀
+	this.hostprefix="ws://";
+	//发送的参数
+	var sendparam=null;
+	//更新构造参数到对象
+	jQuery.extend(true, this.config, config);
+
+	/**
+	 * 建立连接
+	 */
+	this.connect=function(){
+			console.info('Websocket开始连接...');
+			if (!window.WebSocket) {// 检测浏览器支持
+						console.error('该浏览器不支持Websocket!!!');
+						return;
 			}
-			console.dir(_socketP)
-			sendparam=jd.fn.json2string(_socketP);
-			return Self;//将对象转换成字符串
-			
-		}
+			if(Self.socket==null)
+				Self.socket = new WebSocket(this.config.addr);// 创建连接并注册响应函数
+
+			Self.socket.onopen = function(evt){//打开连接
+								console.info("WebSocket已打开!!!")
+			};
+
+			Self.socket.onmessage = function(message) {//接收消息
+					var dataJson=jd.fn.string2json(message.data);
+					console.log("接收消息>>>："+message.data);
+					//若拒绝需提示@@@
+          if(dataJson.callpath != ""){
+            var _funkey=dataJson.callpath;//+"."+dataJson.fn;
+          }
+          if(dataJson.action != ""){
+            var _funkey=dataJson.action;//+"."+dataJson.fn;
+          }
+		var _fun=$funReturn.get(_funkey);
+        console.log("dataJson.ret:"+dataJson.ret)
+        console.log("dataJson.fn:"+dataJson.fn)
+					if(_fun) _fun(dataJson.ret,dataJson.fn);
+			};
+
+			Self.socket.onclose = this.onclose;
+			Self.socket.onerror = this.onerror;
+
+		return Self;
+	}
+
+	this.onerror=function(){
+		console.error("websocket已出错!!!");
+		this.close();
+	};
+
+	this.onclose=function(){//
+		console.info("websocket已关闭!!!");
+		jd.plugins.x2Scheduled.remove("sendsocket");
+		this.close();
+		Self.socket=null;
 		
-		/**
-		 *发送消息 
-		 */
-		this.send=function(){
-			if(arguments.length>1)
-				this.paramFormat(arguments);//格式化后的消息
-			else if(arguments.length==1)
-				this.sendparam=arguments[0];
-			
-			try{
-				if(this.socket){
-					var _socket=this.socket;
-					this.msgId+=1;
-					var _interval=this.msgId%2==0?Self.config.intervalTime+100:Self.config.intervalTime;
-					var _sendparam=sendparam;
-					var param=jd.fn.string2json(sendparam);
-					jd.plugins.x2Scheduled.add('sendsocket'+param['callpath']+param['fn'],{callback:		
-							function(count,servDate){//回调函数
-									if(_socket.readyState==1){
-										_socket.send(_sendparam);//发送消息
-										console.log("发送消息："+_sendparam);
-										jd.plugins.x2Scheduled.remove("sendsocket"+param['callpath']+param['fn']);
-									}else{
-										console.log("readyState:"+_socket.readyState+"  重试发送消息："+_sendparam);
-										if(count==0){
-											jd.plugins.x2Scheduled.remove("sendsocket"+param['callpath']+param['fn']);
-											if(Self.config.errorFn) Self.config.errorFn();//执行回调出错回调函数
-											Self.connect().send(_sendparam);//发送消息重试
-										}else{
+		jd.plugins.x2Scheduled.add('openloop',{callback:
+			function(count,servDate){//回调函数
+						Self.connect();//发送消息
+			},interval:Self.config.intervalTime,count:1,direct:jd.plugins.x2ScheduledObserver.DESC});
+		//Fix 根据stopTag来确认要不要重连。。 方便在停下来。。
+		Self.stopTag&& jd.plugins.x2Scheduled.remove("openloop");
+	};
 
-											_socket.close();
-											Self.connect().send(_sendparam);//发送消息重试
-										}
-								}
-									
-							},interval:_interval,count:Self.config.repeat,direct:jd.plugins.x2ScheduledObserver.DESC});
-							
-				}else{//发送时连接断开始，重新连接，再发送	
-				
-					console.error(' 请先连接服务!!!');return sendparam; 
 
-					
+	/**
+	 *格式化参数
+	 *@param {Object} arguments 参数数组 第一个参数:回调函数，第二个参数：调用web的方法名，调用web方法的参数
+	 *@return {Object} 返回格式话参数对象的字符串
+	 */
+	this.paramFormat=function(argument){
+
+		/**参数对象不能超过11个长度*/
+		if(argument.length<0||argument.length>11){
+				console.error("请注意：web.run参数为空或长度过长!!!");
+				console.dir(argument);
+				return;
+			}
+
+
+//		console.log(arguments[1]);
+//		console.dir(arguments[0]);
+
+		/**定义入参对象 callpath:web类名，fn:web方法，param：参数数组*/
+		var _socketP={callpath:"",fn:"",action:"",param:[]};
+		/**给定义入参callpath赋值*/
+
+		_socketP.callpath=argument[1].substring(0,argument[1].lastIndexOf('.'));
+
+		/**给定义入参fn赋值*/
+		_socketP.fn=argument[1].substring(argument[1].lastIndexOf('.')+1);
+
+    /**给定义入参action赋值*/
+
+    _socketP.action=argument[2];
+		/**将回调方法放到回调方法集合中*/
+		if(_socketP.callpath!=null && _socketP.callpath!="")  $funReturn.put(_socketP.callpath,argument[0]);
+    /**将回调方法放到回调方法集合中*/
+    if(_socketP.action!=null)  $funReturn.put(_socketP.action,argument[0]);
+		/**如果第三个参数是个数组，那就只解析数组了*/
+		if(argument[3] instanceof Array){
+			_socketP.param=argument[3];
+		}else{
+			/**拼合socket发送参数*/
+			for(var i=3;i<argument.length;i++){
+				_socketP.param.push(argument[i]);
+			}
+		}
+
+		sendparam=jd.fn.json2string(_socketP);
+		return Self;//将对象转换成字符串
+
+	}
+	/**
+	 * [补上一个close方法]
+	 * @return {[type]} [description]
+	 */
+	this.stopTag=false;
+	this.stop=function(){
+		this.stopTag=true;
+	}
+	/**
+	 *发送消息
+	 */
+	this.send=function(){
+		console.log(arguments.length)
+		if(arguments.length>1)
+			this.paramFormat(arguments);//格式化后的消息
+		else if(arguments.length==1)
+		//？？
+			this.sendparam=arguments[0];
+
+		try{
+			if(this.socket){
+				//fix 修改后重新连接成功的socket并不等于目前这个sockt 所以应当置后
+				// var _socket=this.socket;
+				this.msgId+=1;
+				var _interval=this.msgId%2==0?Self.config.intervalTime+100:Self.config.intervalTime;
+				var _sendparam=sendparam;
+				var param=jd.fn.string2json(sendparam);
+				if(arguments[1] != ""){
+					console.log('sendsocket'+param['callpath']+param['fn'])
+		          	jd.plugins.x2Scheduled.add('sendsocket'+param['callpath']+param['fn'],{callback:
+		            function(count,servDate){//回调函数
+		              if(Self.socket.readyState==1){
+		                Self.socket.send(_sendparam);//发送消息
+		                console.log("发送消息："+_sendparam);
+		                jd.plugins.x2Scheduled.remove("sendsocket"+param['callpath']+param['fn']);
+		              }else{
+
+		                console.log("readyState:"+Self.socket.readyState+"  重试发送消息："+_sendparam);
+
+		                // FIX  。。这段不知道在干嘛。。搞的停不下来
+		                // if(count==0){
+		                //   jd.plugins.x2Scheduled.remove("sendsocket"+param['callpath']+param['fn']);
+		                //   if(Self.config.errorFn) Self.config.errorFn();//执行回调出错回调函数
+		                //   Self.connect().send(_sendparam);//发送消息重试
+		                // }else{
+
+		                //   _socket.close();
+		                //   Self.connect().send(_sendparam);//发送消息重试
+		                // }
+		               	//replace
+		               	if(!Self.socket){
+	                  		console.log("websocket未连接")
+	                    
+	    	            }else{console.log("readyState:"+Self.socket.readyState+"\n接口已关闭或不可用"+"  重试发送消息："+_sendparam);}
+
+		                console.log(`停止硬件接口请在控制台输入\n $jdSchedule.remove('sendsocket${param['action']}')`)
+
+		              }
+
+		            },interval:_interval,count:Self.config.repeat,direct:jd.plugins.x2ScheduledObserver.DESC});
+		        }
+		        if(arguments[2] != ""){
+
+		          jd.plugins.x2Scheduled.add('sendsocket'+param['action'],{callback:
+		            function(count,servDate){//回调函数
+		              if(Self.socket && Self.socket.readyState==1){
+		               Self.socket.send(_sendparam);//发送消息
+		                console.log("发送消息："+_sendparam);
+		                jd.plugins.x2Scheduled.remove("sendsocket"+param['action']);
+		              }else{
+		                // if(count==0){
+		                //   jd.plugins.x2Scheduled.remove("sendsocket"+param['action']);
+		                //   if(Self.config.errorFn) Self.config.errorFn();//执行回调出错回调函数
+		                //   Self.connect().send(_sendparam);//发送消息重试
+		                // }else{
+
+		                //   _socket.close();
+		                //   Self.connect().send(_sendparam);//发送消息重试
+		                // }
+		                // replace
+	                  	if(!Self.socket){
+	                  		console.log("websocket未连接"+_sendparam)
+	                    
+	    	            }else{console.log("readyState:"+Self.socket.readyState+"\n接口已关闭或不可用"+"  重试发送消息："+_sendparam);}
+
+		                console.log(`停止周期调用硬件接口请在控制台输入\n $jdSchedule.remove('sendsocket${param['action']}')`)
+
+		              }
+
+		            },interval:_interval,count:Self.config.repeat,direct:jd.plugins.x2ScheduledObserver.DESC});
+		        }
+
+				}else{//发送时连接断开始，重新连接，再发送
+
+					console.error(' 请先连接服务!!!');return sendparam;
+
+
 				}
 				return sendparam;
 			}catch(e){
 				console.error(e.message);
 			}
 		}
-			
-		
-		
-		
-		/**
-		 *发送消息 
-		 */
-		this.log=function(content){
-			var sendparam="log:"+content;
-			if(content!=null && content!="")
-				try{
-					if(this.socket){
-						console.log(sendparam);
-						_socket=this.socket;
-						_socket.msgId++;
-						jd.plugins.x2Scheduled.add('sendlog'+_socket.msgId,{callback:		
-								function(count,servDate){//回调函数
-	//								console.log(_socket.readyState);
-										if(_socket.readyState==1){
-											_socket.send(sendparam);//发送消息
+
+
+
+
+	/**
+	 *发送消息
+	 */
+	this.log=function(content){
+		var sendparam="log:"+content;
+		if(content!=null && content!="")
+			try{
+				if(this.socket){
+					console.log(sendparam);
+					var _socket=this.socket;
+					_socket.msgId++;
+					jd.plugins.x2Scheduled.add('sendlog'+_socket.msgId,{callback:
+							function(count,servDate){//回调函数
+//								console.log(_socket.readyState);
+									if(_socket.readyState==1){
+										_socket.send(sendparam);//发送消息
+										jd.plugins.x2Scheduled.remove("sendlog"+_socket.msgId);
+									}else{
+
+										if(count==0){
 											jd.plugins.x2Scheduled.remove("sendlog"+_socket.msgId);
+											if(Self.config.errorFn) Self.config.errorFn();//执行回调出错回调函数
 										}else{
-											
-											if(count==0){
-												jd.plugins.x2Scheduled.remove("sendlog"+_socket.msgId);
-												if(Self.config.errorFn) Self.config.errorFn();//执行回调出错回调函数
-											}else{
-	//											console.dir(Self);
-												_socket.close();
-												Self.connect().send();//发送消息重试
-											}
-									}
-										
-								},interval:Self.config.intervalTime,count:Self.config.repeat,direct:jd.plugins.x2ScheduledObserver.DESC});
-								
-					}else{//发送时连接断开始，重新连接，再发送	
-					
-						console.error(' 请先连接服务!!!');return sendparam; 
-						
-					}
-					return sendparam;
-				}catch(e){
-					console.error(e.message);
-			 }
-		}
+//											console.dir(Self);
+											_socket.close();
+											Self.connect().send();//发送消息重试
+										}
+								}
+
+							},interval:Self.config.intervalTime,count:Self.config.repeat,direct:jd.plugins.x2ScheduledObserver.DESC});
+
+				}else{//发送时连接断开始，重新连接，再发送
+
+					console.error(' 请先连接服务!!!');return sendparam;
+
+				}
+				return sendparam;
+			}catch(e){
+				console.error(e.message);
+		 }
+	}
+
+
 
 }
 
@@ -5711,7 +5782,7 @@ var jdSocket=$web.socket=function(config){
 var $socket=new $web.socket({
 	addr:jd.global.socket_host,
 	repeat:0,
-	intervalTime:3000,
+	intervalTime:500,
 	errorFn:null,
 	timeOut:3000
 });

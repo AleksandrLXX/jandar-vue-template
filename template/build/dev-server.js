@@ -96,7 +96,7 @@ app.post('/mock/**', function(req, res, next) {
     if(req.body.js_template){
       console.log(req.path.split(/[/\.]/).slice(-2,-1)[0])
         let jsonStr = objToJson(req.path.split(/[/\.]/).slice(-2,-1)[0]+'.js')
-        res.send(jsonStr)
+        res.send(jsonStr);
     }else{
       //根目录为D。。
       // var data=rf.readFileSync('.'+req.path,"utf-8");
@@ -106,6 +106,9 @@ app.post('/mock/**', function(req, res, next) {
     }
 })
 
+/**
+ * 开发测试用json数据---------------------------------end
+ */
 
 console.log('> Starting dev server...')
 devMiddleware.waitUntilValid(() => {

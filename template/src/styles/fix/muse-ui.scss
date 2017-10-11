@@ -1,0 +1,45 @@
+@import '../variables.scss'
+
+.mu-card-title-container{
+    margin-top:40px; 
+    .mu-card-title{
+        margin-top: 3px;
+        font-size: 30px;
+    }
+    .mu-card-sub-title{
+        font-size: 25px;
+        color:#f22;
+    }
+}
+.mu-card-title{
+    margin-top:-10px;
+}
+.mu-card-media img{
+    border:5px solid  #817349;
+    height: 200px;
+}
+.mu-card-media-title{
+    display: relative;
+    top:200px;
+    background-color: #817349;
+    height: 50px;
+}
+.mu-card-title{
+    font-famliy:FangSong,STFangsong;
+    max-height: 2.5em;
+    overflow: hidden;
+   
+       
+}
+
+.mu-toast{
+    background-color: lighten(#beaa6b,10%);
+    left:50%;
+    top:50%;
+    max-width: 800px;
+    box-sizing: content-box;
+    width: 800px;
+    text-align:center;
+    color:#333;
+    transform: translateX(-50%);
+}

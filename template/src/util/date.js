@@ -1,6 +1,12 @@
 /**
  * Copyright © kacper.wang 
  * http://jaywcjlove.github.io
+ * 
+ */
+/**
+ * [对日期格式化的轻型方案库]
+ * @Author   AleksandrLXX
+ * @DateTime 2017-10-11T09:49:56+0800
  */
 ;(function(window){
 	/**

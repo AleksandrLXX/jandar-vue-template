@@ -2,11 +2,26 @@
  * 全局样式修改,第三方UI组件样式修改。
  */
 
+@import './variables.scss';
+
+@import './keyframe.scss';
+
+@import './mixin.scss';
+
+@import './fix/index.scss';
 //-------------------全局样式修改------------------------------
-$assertive:#cf3a7d;
-$foreColor:#06d7d9;
-$fontColor:#fff;
-$disable:#ccc;
+
+@include colorpalette($baseColor, base)
+@include colorpalette($lightColor, light)
+@include colorpalette($darkColor, dark)
+@include colorpalette($assertive, assert)
+@include colorpalette($positive, positive)
+
+
+@include fadeInFromBottom(contentFadeIn, 70px) 
+@include fadeInFromBottom(itemFadeIn, 70px) 
+
+
 span,div{
     &[big]{
         font-size: 120%;
@@ -25,13 +40,8 @@ span,div{
         color: $disable;
     }
 }
-@mixin column{
-    display: flex;flex-direction:column;
-}
 
-@mixin row{
-    display: flex;flex-direction:row;
-}
+
 
 div,section{
     &[ellipsis]{
@@ -111,6 +121,47 @@ div,section{
     }
 }
 
+.over-hidden{
+    overflow: hidden
+}
+.no-select{
+    -moz-user-select:none;/* 火狐 */
+
+    -webkit-user-select:none;/*webkit 浏览器 */
+
+    -ms-user-select:none;/*IE10*/
+
+    -khtml-user-select:none;/* 早期浏览器 */
+
+    user-select:none;
+   
+}
+.lay-lump{
+    background-color: rgba($darkColor,.1);
+}
+.no-margin{
+    margin:0 0;
+}
+.no-padding{
+    padding:0 0;
+}
+.full-width{
+    width: 100%;
+
+}
+.full-height{
+    height: 100%;
+}
+.full-size{
+    width: 100%;
+    height: 100%;
+}
+.absolute-center{
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform: translateX(-50%) translateY(-50%);
+}
 
 input,
 text,
@@ -125,10 +176,7 @@ i {
 
 
 body {
-    display: flex;
-    flex-direction:column;
-    align-items:center;
-    color: $fontColor;
+    color: $lightColor;
     font-weight: 400;
     background-color: #fff;
     font-size: 16px;
@@ -155,54 +203,5 @@ body {
         background-color: transparentize(#000,0.3)
 }
 
-.mu-card-title-container{
-    margin-top:40px; 
-    .mu-card-title{
-        margin-top: 3px;
-        font-size: 30px;
-    }
-    .mu-card-sub-title{
-        font-size: 25px;
-        color:#f22;
-    }
-}
-.mu-card-title{
-    margin-top:-10px;
-}
-.mu-card-media img{
-    border:5px solid  #817349;
-    height: 200px;
-}
-.mu-card-media-title{
-    display: relative;
-    top:200px;
-    background-color: #817349;
-    height: 50px;
-}
-.mu-card-title{
-    font-famliy:FangSong,STFangsong;
-    max-height: 2.5em;
-    overflow: hidden;
-   
-       
-}
 
-.mu-toast{
-    background-color: lighten(#beaa6b,10%);
-    left:50%;
-    top:50%;
-    max-width: 800px;
-    box-sizing: content-box;
-    width: 800px;
-    text-align:center;
-    color:#333;
-    transform: translateX(-50%);
-    
-}
 
-.pos-tf-center{
-    position: absolute;
-    left:50%;
-    top:50%;
-    transform: translateX(-50%) translateY(-50%);
-}

@@ -41,7 +41,6 @@ export function fetchGet(url, params) {
 
             })
             .finally(() => {
-             // $loading.hide()
          })
     })
 }

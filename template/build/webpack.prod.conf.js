@@ -18,13 +18,13 @@ var webpackConfig = merge(baseWebpackConfig, {
       extract: true
     })
   },
-  //现实生产需要node环境
+  //jandar的现实生产有时需要本机node环境
   target:"node-webkit",
   devtool: config.build.productionSourceMap ? '#cheap-module-source-map' : false,
   output: {
     path: config.build.assetsRoot,
     filename: utils.assetsPath('js/[name].[chunkhash].js'),
-    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
+    chunkFilename: utils.assetsPath('js/[name].[chunkhash].js')
   },
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html

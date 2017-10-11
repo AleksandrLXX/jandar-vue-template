@@ -1,0 +1,65 @@
+@mixin swatchesDarken($color, $name) {
+  @for $i from 1 through 10 {
+    .#{$name}-bg-darken#{$i} {
+      $n: $i*5;
+      $bgc: darken($color, $n); //颜色变暗 
+      background-color: $bgc;
+    }
+    .#{$name}-fore-darken#{$i} {
+      $n: $i*5;
+      $fc: darken($color, $n); //颜色变暗 
+      color: $fc;
+    }
+  }
+}
+
+
+@mixin swatcheslighten($color, $name) {
+  @for $i from 1 through 10 {
+    .#{$name}-bg-lighten#{$i} {
+      $n: $i*5;
+      $bgc: lighten($color, $n); //颜色变暗 
+      background-color: $bgc;
+    }
+    .#{$name}-fore-lighten#{$i} {
+      $n: $i*5;
+      $fc: lighten($color, $n); //颜色变暗 
+      color: $fc;
+    }
+  }
+}
+/**
+  * 调色板mixin 可以将一个颜色摊成一个深浅各10层的色调样式类
+  */
+
+@mixin colorpalette($color, $name) {
+  @include swatcheslighten($color, $name);
+  @include swatchesDarken($color, $name);
+  .#{$name}-bg {
+    background-color: $color;
+  }
+  .#{$name}-fore {
+    color: $color;
+  }
+}
+
+@mixin fadeInFromBottom($name, $offset, $delay:0) {
+   @-webkit-keyframes #{$name} {
+     0% {
+       -webkit-transform: translateY($offset);
+       -webkit-opacity: 0;
+     }
+     100% {
+       -webkit-transform: translateY(0px);
+       -webkit-opacity: 1;
+     }
+   }
+ }
+
+ @mixin column{
+     display: flex;flex-direction:column;
+ }
+
+ @mixin row{
+     display: flex;flex-direction:row;
+ }

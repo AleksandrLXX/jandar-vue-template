@@ -28,9 +28,10 @@ module.exports = {
       'src': resolve('src'),
       'assets': resolve('src/assets'),
       'components': resolve('src/components'),
+      'styles':resolve('src/styles'),
       'pages':resolve('src/pages'),
       'api':process.env.NODE_ENV === 'production' ? resolve('src/api/api.pro.js') : resolve('src/api/api.dev.js'),
-      'imgs':resolve('src/img')
+      'imgs':resolve('src/imgs')
     },
     symlinks: false
   },
