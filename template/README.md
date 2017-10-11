@@ -6,6 +6,8 @@
 
 ``` bash
 # install dependencies
+vue init AleksandrLXX/jandar-vue-template <your-program-name>
+
 npm install
 
 # serve with hot reload at localhost:8080
